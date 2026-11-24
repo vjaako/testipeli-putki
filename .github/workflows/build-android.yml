@@ -56,15 +56,17 @@ jobs:
         run: |
           echo "$KEYSTORE_BASE64" | base64 -d > android/app/release-key.jks
 
-      - name: Build signed AAB and debug APK
+      - name: Build debug APK and signed release AAB
         working-directory: android
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEYSTORE_PATH: ${{ github.workspace }}/android/app/release-key.jks
         run: |
-          ./gradlew assembleDebug bundleRelease \
-            -Pandroid.injected.signing.store.file=release-key.jks \
+          ./gradlew assembleDebug
+          ./gradlew bundleRelease \
+            -Pandroid.injected.signing.store.file="$KEYSTORE_PATH" \
             -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
             -Pandroid.injected.signing.key.alias="$KEY_ALIAS" \
             -Pandroid.injected.signing.key.password="$KEY_PASSWORD"
