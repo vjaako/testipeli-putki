@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Testipeli v0.1</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #121212;
+      color: #ffffff;
+      font-family: sans-serif;
+      user-select: none;
+    }
+    #score {
+      font-size: 4rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+    }
+    button {
+      padding: 24px 48px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      background-color: #00e676;
+      color: #121212;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+    }
+    button:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <div>PISTEET</div>
+  <div id="score">0</div>
+  <button id="tapBtn">NAPAUTA</button>
+
+  <script>
+    let score = Number(localStorage.getItem('testipeli_score')) || 0;
+    const scoreEl = document.getElementById('score');
+    const tapBtn = document.getElementById('tapBtn');
+
+    scoreEl.textContent = score;
+
+    tapBtn.addEventListener('click', () => {
+      score++;
+      scoreEl.textContent = score;
+      localStorage.setItem('testipeli_score', score);
+    });
+  </script>
+</body>
+</html>
